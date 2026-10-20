@@ -1,0 +1,9 @@
+{
+    "geode": "4.6.1",
+    "gd": { "win": "*", "android": "*" },
+    "id": "you.ticksave",
+    "name": "TickSave",
+    "version": "v1.0.0",
+    "developer": "you",
+    "description": "Frame-save cheat recreation. Press F6 to cycle ticks."
+}
