@@ -7,21 +7,25 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        platform: [ windows-latest ]
-    runs-on: ${{ matrix.platform }}
-
+    runs-on: windows-latest
+    
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Build for Windows
-        uses: geode-sdk/actions/build@v3
-        with:
-          platforms: "windows"
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
+      # Use the latest stable setup for Geode
+      - name: Setup Geode SDK
+        uses: geode-sdk/actions/setup@main
+
+      # Build the project manually using CMake
+      - name: Build Mod
+        run: |
+          cmake -B build
+          cmake --build build --config Release
+
+      # Upload using v4 (Fixes the deprecation error)
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: ticksave-geode
+          name: ticksave-windows
           path: build/**/*.geode
