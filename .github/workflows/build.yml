@@ -1,4 +1,4 @@
-name: Build
+name: Build Mod
 
 on:
   push:
@@ -8,22 +8,20 @@ on:
 jobs:
   build:
     strategy:
-      fail-fast: false
       matrix:
-        include:
-          - { name: Windows, os: windows-latest }
-          - { name: macOS,   os: macos-latest }
-          - { name: Android, os: ubuntu-latest }
-    runs-on: ${{ matrix.os }}
-    name: Build (${{ matrix.name }})
+        platform: [ windows-latest ]
+    runs-on: ${{ matrix.platform }}
+
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Build the mod
-        uses: geode-sdk/actions/build@v1
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/checkout@v3
+      
+      - name: Build for Windows
+        uses: geode-sdk/actions/build@v3
         with:
-          name: ticksave-${{ matrix.name }}
+          platforms: "windows"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ticksave-geode
           path: build/**/*.geode
