@@ -13,17 +13,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Use the latest stable setup for Geode
-      - name: Setup Geode SDK
-        uses: geode-sdk/actions/setup@main
-
-      # Build the project manually using CMake
+      # Use the composite 'build' action (handles setup + build internally)
       - name: Build Mod
-        run: |
-          cmake -B build
-          cmake --build build --config Release
+        uses: geode-sdk/actions/build@main
+        with:
+          platforms: "windows"
+          # Optional: If you have dependencies in 'dependencies.json'
 
-      # Upload using v4 (Fixes the deprecation error)
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
